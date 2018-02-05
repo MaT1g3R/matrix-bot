@@ -3,6 +3,7 @@ from json import loads
 from pathlib import Path
 
 from bot.bot_client import BotClient
+from bot.misc_commands import echo, latex
 
 HERE = Path(Path(__file__).parent)
 
@@ -42,7 +43,12 @@ def setup_logging():
 
 
 def main(user, passw, rooms):
-    client = BotClient('https://matrix.org', setup_logging())
+    commands = {
+        'echo': echo,
+        'latex': latex
+    }
+    client = BotClient('https://matrix.org', setup_logging(), prefix='!',
+                       commands=commands)
     client.start(user, passw, rooms)
 
 
